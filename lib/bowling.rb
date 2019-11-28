@@ -1,4 +1,4 @@
-Class Bowling
+class Bowling
 	def initialize
 		@total_score = 0
 	end
