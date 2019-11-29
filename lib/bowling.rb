@@ -3,6 +3,7 @@ class Bowling
 		@total_score = 0
 		@scores = []
 		@temp = []
+		@frame_score = []
 	end
 
 	def total_score
@@ -27,7 +28,12 @@ class Bowling
 			else
 				@total_score += @scores.inject(:+)
 			end
+			@frame_score << @total_score
 		end
+	end
+	
+	def frame_score(frame)
+		@frame_score[frame - 1]
 	end
 
 	private
