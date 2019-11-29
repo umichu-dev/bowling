@@ -8,18 +8,21 @@ class Bowling
 	def total_score
 		@total_score
 	end
-
+	#スコアを追加する
 	def add_score(pins)
 		@temp << pins
-		if @temp.size == 2
-			@socres = @temp
+		if @temp.size == 2 || strike?(@temp)
+			@socres << @temp
 			@temp = []
 		end
 	end
-
+	#スコアの合計を計算する
 	def calc_score
 		@scores.each.with_index(1) do |score,index|
-			if spare?(index) && not_last_frame?(index)
+			
+			if strike?(score) && not_last_frame?(index)
+				@total_score += calc_strike_bonus(index)
+			elsif spare?(index) && not_last_frame?(index)
 				@total_score += calc_spare_bonus(index)
 			else
 				@total_score += @scores.inject(:+)
@@ -39,6 +42,18 @@ class Bowling
 
 	def calc_spare_bonus(index)
 		10 + @scores[index].first
+	end
+	
+	def strike?(score)
+		score.first == 10
+	end
+	
+	def calc_strike_bonus(index)
+		if strike?(@scores[index]) && not_last_frame?(index + 1)
+			20 + @scores[index + 1].first 
+		else
+			10 + @scores[index].inject[:+]
+		end
 	end
 
 end

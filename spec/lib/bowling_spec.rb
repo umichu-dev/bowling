@@ -76,6 +76,57 @@ describe "ボウリングのスコア計算" do
 			end
 		end
 
+		context "ストライクを取った場合" do
+			it "ストライクボーナスが加算されること"
+				@game.add_score(10)
+				@game.add_score(5)
+				@game.add_score(4)
+				add_many_scores(16,0)
+				@game.calc_score
+				expect(@game.total_score).to eq 28
+			end
+
+		end
+
+		context "ダブルを取った場合" do
+			it "それぞれのストライクボーナスが加算されること"do
+				@game.add_score(10)
+				@game.add_score(10)
+				@game.add_score(5)
+				@game.add_score(4)
+				add_many_scores(14,0)
+				@game.calc_score
+				expect(@game.total_score).to eq 53
+			end
+		end
+
+
+		context "ターキーを取った場合" do
+			it "それぞれのストライクボーナスが加算されること"do
+				@game.add_score(10)
+				@game.add_score(10)
+				@game.add_score(10)
+				@game.add_score(5)
+				@game.add_score(4)
+				add_many_scores(12,0)
+				@game.calc_score
+				expect(@game.total_score).to eq 83
+			end
+		end
+
+		
+		context "最終フレームでストライクをとった場合" do
+			it "ストライクボーナスが加算されないこと"do
+				@game.add_score(10)
+				@game.add_score(5)
+				@game.add_score(4)
+				add_many_scores(14,0)
+				@game.add_score(10)
+				@game.calc_score
+				expect(@game.total_score).to eq 38
+			end
+		end
+
 	end
 
 	private
